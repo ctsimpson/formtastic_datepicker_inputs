@@ -9,11 +9,12 @@ describe "FormtasticDatepickerInputs" do
   end
 
   describe "date_picker_input" do
-	before do
-	  @new_post.stub!(:publish_at).and_return(DateTime.parse('2000-01-02'))
+	  before do
+	    @new_post.stub!(:publish_at).and_return(DateTime.parse('2000-01-02'))
       output_buffer.replace ''
+
       @form = semantic_form_for(@new_post) do |builder|
-        concat(builder.input(:publish_at, :as => :date_picker))
+          concat(builder.input(:publish_at, :as => :date_picker))
       end
     end
 
@@ -25,26 +26,28 @@ describe "FormtasticDatepickerInputs" do
     it_should_have_input_with_type(:text)
     it_should_have_input_with_name("post[publish_at]")
     it_should_have_input_with_class("ui-date-picker")
-    
+
     it "should format date correctly" do
-	  output_buffer.concat(@form) if Formtastic::Util.rails3?
+	    output_buffer.concat(@form) if Formtastic::Util.rails3?
       output_buffer.should have_tag("form li input#post_publish_at[@value='02 Jan 2000']")
-	end
+	  end
   end
 
   it "should use custom date format correctly" do
-	@new_post.stub!(:publish_at).and_return(DateTime.parse('2000-01-02'))
-	output_buffer.replace ''
-	@form = semantic_form_for(@new_post) do |builder|
-	  concat(builder.input(:publish_at, :as => :date_picker, :format => '%A, %B %d %Y'))
-	end
-	output_buffer.concat(@form) if Formtastic::Util.rails3?
-	output_buffer.should have_tag("form li input#post_publish_at[@value='Sunday, January 02 2000']")
+	  @new_post.stub!(:publish_at).and_return(DateTime.parse('2000-01-02'))
+	  output_buffer.replace ''
+	
+    @form = semantic_form_for(@new_post) do |builder|
+	    concat(builder.input(:publish_at, :as => :date_picker, :format => '%A, %B %d %Y'))
+	  end
+	
+    output_buffer.concat(@form) if Formtastic::Util.rails3?
+	  output_buffer.should have_tag("form li input#post_publish_at[@value='Sunday, January 02 2000']")
   end
 
   describe "datetime_picker_input" do
-	before do
-	@new_post.stub!(:publish_at).and_return(DateTime.parse('2000-01-02 03:04'))
+	  before do
+	    @new_post.stub!(:publish_at).and_return(DateTime.parse('2000-01-02 03:04'))
       output_buffer.replace ''
       @form = semantic_form_for(@new_post) do |builder|
         concat(builder.input(:publish_at, :as => :datetime_picker))
@@ -59,20 +62,22 @@ describe "FormtasticDatepickerInputs" do
     it_should_have_input_with_type(:text)
     it_should_have_input_with_name("post[publish_at]")
     it_should_have_input_with_class("ui-datetime-picker")
-    
+
     it "should format date correctly" do
-	  output_buffer.concat(@form) if Formtastic::Util.rails3?
+	    output_buffer.concat(@form) if Formtastic::Util.rails3?
       output_buffer.should have_tag("form li input#post_publish_at[@value='02 Jan 2000 03:04']")
-	end
+	  end
   end
-  
+
   it "should use custom date/time format correctly" do
-	@new_post.stub!(:publish_at).and_return(DateTime.parse('2000-01-02 03:04'))
-	output_buffer.replace ''
-	@form = semantic_form_for(@new_post) do |builder|
-	  concat(builder.input(:publish_at, :as => :date_picker, :format => '%A, %B %d %Y %H:%M'))
-	end
-	output_buffer.concat(@form) if Formtastic::Util.rails3?
-	output_buffer.should have_tag("form li input#post_publish_at[@value='Sunday, January 02 2000 03:04']")
+	  @new_post.stub!(:publish_at).and_return(DateTime.parse('2000-01-02 03:04'))
+	  output_buffer.replace ''
+	
+    @form = semantic_form_for(@new_post) do |builder|
+	    concat(builder.input(:publish_at, :as => :date_picker, :format => '%A, %B %d %Y %H:%M'))
+	  end
+	
+    output_buffer.concat(@form) if Formtastic::Util.rails3?
+	  output_buffer.should have_tag("form li input#post_publish_at[@value='Sunday, January 02 2000 03:04']")
   end
 end
