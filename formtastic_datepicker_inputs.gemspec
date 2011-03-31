@@ -6,8 +6,8 @@ Gem::Specification.new do |s|
   s.name        = "formtastic_datepicker_inputs"
   s.version     = FormtasticDatepickerInputs::VERSION
   s.platform    = Gem::Platform::RUBY
-  s.authors     = ["Alan Harper"]
-  s.email       = ["alan@appfission.com"]
+  s.authors     = ["Grzegorz Brzezinka", "Nik Petersen", "Alan Harper", "Konstantin Shabanov"]
+  s.email       = ["etehtsea@gmail.com"]
   s.homepage    = "http://github.com/etehtsea/formtastic_datepicker_inputs"
   s.summary     = %q{formtastic support for jQuery UI's date picker inputs}
   s.description = %q{Use jQuery UI's date picker with formtastic easily}
