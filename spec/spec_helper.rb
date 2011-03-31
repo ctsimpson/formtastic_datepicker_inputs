@@ -133,7 +133,7 @@ module FormtasticDatepickerInputsSpecHelper
     def author_path(o); "/authors/1"; end
     def authors_path; "/authors"; end
     def new_author_path; "/authors/new"; end
-    
+
     @fred = ::Author.new
     @fred.stub!(:class).and_return(::Author)
     @fred.stub!(:to_label).and_return('Fred Smith')
