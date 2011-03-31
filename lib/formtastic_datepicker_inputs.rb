@@ -8,11 +8,11 @@
 #format = options[:format] || Date::DATE_FORMATS[:default] || ‘%d %b %Y’
 module Formtastic
   if defined?(ActiveSupport::CoreExtensions)
-	DATE_FORMATS = ActiveSupport::CoreExtensions::Date::Conversions::DATE_FORMATS
+	  DATE_FORMATS = ActiveSupport::CoreExtensions::Date::Conversions::DATE_FORMATS
   else
-	DATE_FORMATS = Date::DATE_FORMATS
+	  DATE_FORMATS = Date::DATE_FORMATS
   end
- 
+
   module DatePicker
     protected
 
@@ -27,7 +27,7 @@ module Formtastic
       {:input_html => {:class => 'ui-date-picker',:value => value.try(:strftime, format)}}
     end
   end
-  
+
   module DateTimePicker
     protected
 
