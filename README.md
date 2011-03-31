@@ -24,7 +24,7 @@ The concept is simple. It adds a new input into formtastic that can be used like
     <%= semantic_form_for @master do |f| %>
 		  <%= f.inputs do %>
 		    <%= f.input :name %>
-		    <%= f.input :time_field,      :as => :date_picker %>
+		    <%= f.input :time_field, :as => :date_picker %>
         <%= f.input :date_time_field, :as => :date_time_picker %>
 		  <% end %>
 		  <%= f.buttons %>
