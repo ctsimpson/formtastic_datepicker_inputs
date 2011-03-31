@@ -1,29 +1,19 @@
+# encoding: utf-8
 require 'rubygems'
 require 'bundler'
 Bundler.setup
-
-$LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
-$LOAD_PATH.unshift(File.dirname(__FILE__))
-require 'rspec'
 
 require 'active_support'
 require 'action_pack'
 require 'action_view'
 require 'action_controller'
 require 'formtastic'
-require 'rspec_tag_matchers'
 
 # Requires supporting files with custom matchers and macros, etc,
-# in ./support/ and its subdirectories.
-Dir["#{File.dirname(__FILE__)}/support/**/*.rb"].each {|f| require f}
+# in ./support/ and its subdirectories in alphabetic order.
+Dir["#{File.dirname(__FILE__)}/support/**/*.rb"].sort.each {|f| require f}
 
 require 'formtastic_datepicker_inputs'
-
-RSpec.configure do |config|
-  config.include RspecTagMatchers
-  config.include CustomMacros
-  config.mock_with :rspec
-end
 
 module FormtasticDatepickerInputsSpecHelper
   include ActionPack
@@ -43,15 +33,7 @@ module FormtasticDatepickerInputsSpecHelper
   include ActiveSupport
   include ActionController::PolymorphicRoutes if defined?(ActionController::PolymorphicRoutes)
 
-  include Formtastic::SemanticFormHelper
-
-  def rails3?
-    ActionPack::VERSION::MAJOR > 2
-  end
-
-  def rails2?
-    ActionPack::VERSION::MAJOR == 2
-  end
+  include Formtastic::Helpers::FormHelper
 
   def default_input_type(column_type, column_name = :generic_column_name)
     @new_post.stub!(column_name)
@@ -229,6 +211,8 @@ module FormtasticDatepickerInputsSpecHelper
         mock('reflection', :options => {}, :klass => ::Post, :macro => :has_many)
       when :main_post
         mock('reflection', :options => {}, :klass => ::Post, :macro => :belongs_to)
+      when :mongoid_reviewer
+        mock('reflection', :options => {}, :klass => ::Author, :macro => :referenced_in, :foreign_key => "reviewer_id")
       end
 
     end
@@ -240,7 +224,7 @@ module FormtasticDatepickerInputsSpecHelper
     ::Post.stub!(:to_ary)
 
     @mock_file = mock('file')
-    ::Formtastic::SemanticFormBuilder.file_methods.each do |method|
+    Formtastic::FormBuilder.file_methods.each do |method|
       @mock_file.stub!(method).and_return(true)
     end
 
@@ -271,7 +255,7 @@ module FormtasticDatepickerInputsSpecHelper
     @new_post.stub!(:column_for_attribute).with(:title).and_return(mock('column', :type => :string, :limit => 50))
     @new_post.stub!(:column_for_attribute).with(:body).and_return(mock('column', :type => :text))
     @new_post.stub!(:column_for_attribute).with(:published).and_return(mock('column', :type => :boolean))
-    @new_post.stub!(:column_for_attribute).with(:publish_at).and_return(mock('column', :type => :date, :limit => 255))
+    @new_post.stub!(:column_for_attribute).with(:publish_at).and_return(mock('column', :type => :date))
     @new_post.stub!(:column_for_attribute).with(:time_zone).and_return(mock('column', :type => :string))
     @new_post.stub!(:column_for_attribute).with(:allow_comments).and_return(mock('column', :type => :boolean))
     @new_post.stub!(:column_for_attribute).with(:author).and_return(mock('column', :type => :integer))
@@ -309,19 +293,12 @@ module FormtasticDatepickerInputsSpecHelper
   end
 
   def with_config(config_method_name, value, &block)
-    old_value = ::Formtastic::SemanticFormBuilder.send(config_method_name)
-    ::Formtastic::SemanticFormBuilder.send(:"#{config_method_name}=", value)
+    old_value = Formtastic::FormBuilder.send(config_method_name)
+    Formtastic::FormBuilder.send(:"#{config_method_name}=", value)
     yield
-    ::Formtastic::SemanticFormBuilder.send(:"#{config_method_name}=", old_value)
-  end
-
-  def with_deprecation_silenced(&block)
-    ::ActiveSupport::Deprecation.silenced = true
-    yield
-    ::ActiveSupport::Deprecation.silenced = false
+    Formtastic::FormBuilder.send(:"#{config_method_name}=", old_value)
   end
 
 end
 
 ::ActiveSupport::Deprecation.silenced = false
-
