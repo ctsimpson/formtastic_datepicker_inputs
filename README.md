@@ -17,7 +17,7 @@ in your Gemfile. Then do
 ## Usage
 ### Available inputs:
     :date_picker - a date select. Default for column types: :date.
-    :date_time_picker - a date and time select. Default for column types: :datetime and :timestamp.
+    :datetime_picker - a date and time select. Default for column types: :datetime and :timestamp.
 
 ### Example:
 The concept is simple. It adds a new input into formtastic that can be used like this:
@@ -42,7 +42,7 @@ Run the tests
     rake spec
 Also, most of the testing environment has been copied straight of formtastic, so if something doesn't make sense here, it probably did where I grabbed it from.
 
-## Contributing to has_enum
+## Contributing
 
 * Check out the latest master to make sure the feature hasn't been implemented or the bug hasn't been fixed yet
 * Check out the issue tracker to make sure someone already hasn't requested it and/or contributed it
